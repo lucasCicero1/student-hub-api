@@ -1,11 +1,10 @@
 import express from "express";
 import cors from "cors";
-// import routes from './routes';
+import routes from "./routes";
 
 class App {
   constructor() {
     this.express = express();
-    // this.express = {};
     this.middlewares();
 
     this.routes();
@@ -17,7 +16,7 @@ class App {
   }
 
   routes() {
-    // this.express.use('/v1', routes);
+    this.express.use("/v1", routes);
   }
 }
 
