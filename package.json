@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "eslint": "eslint ./src/**/*.js",
+    "dev": "NODE_ENV=development nodemon --watch . -e js,twig,html,css src/server.js --exec 'npm run eslint && babel-node'"
   },
   "keywords": [],
   "author": "",
@@ -25,6 +26,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-promise": "^7.1.0",
+    "nodemon": "^3.1.7",
     "prettier": "^3.3.3"
   },
   "dependencies": {
