@@ -7,4 +7,9 @@ describe("Postgres Helper", () => {
     const client = await sut.connect(config);
     expect(client).toBeTruthy();
   });
+
+  test("Should disconnect from postgres database", async () => {
+    await sut.disconnect();
+    expect(sut.client).toBeNull();
+  });
 });
