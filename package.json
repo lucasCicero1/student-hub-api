@@ -6,7 +6,8 @@
   "scripts": {
     "eslint": "eslint ./src/**/*.js",
     "dev": "NODE_ENV=development nodemon --watch . -e js,twig,html,css src/server.js --exec 'npm run eslint && babel-node'",
-    "test": "NODE_ENV=test jest"
+    "test": "NODE_ENV=test jest",
+    "test:verbose": "NODE_ENV=test jest --passWithNoTests --runInBand"
   },
   "keywords": [],
   "author": "",
