@@ -11,6 +11,11 @@ class PostgresHelper {
 
     return this.client;
   }
+
+  static async disconnect() {
+    await this.client.end();
+    this.client = null;
+  }
 }
 
 export { PostgresHelper };
