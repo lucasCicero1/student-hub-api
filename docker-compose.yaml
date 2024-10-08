@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  postgres:
+    container_name: postgres-test
+    build:
+      context: ./scripts
+      dockerfile: Dockerfile.dev
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - 5432:5432
