@@ -20,7 +20,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["prettier"],
+  plugins: ["prettier", "jest"],
   ignorePatterns: ["node_modules/"],
   rules: {
     quotes: ["error", "double"],
