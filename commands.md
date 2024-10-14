@@ -1,9 +1,3 @@
-npx sequelize db:create
-
-npx sequelize-cli migration:generate --name create-student
-
-npx sequelize-cli db:migrate
-
 
 psql -h localhost -U postgres -d postgres
 
