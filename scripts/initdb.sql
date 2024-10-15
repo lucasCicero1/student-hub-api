@@ -1,3 +1,5 @@
+SET TIME ZONE 'America/Sao_Paulo';
+
 CREATE SCHEMA IF NOT EXISTS test;
 
 create table test.students (
@@ -6,8 +8,8 @@ create table test.students (
     email VARCHAR(40) NOT NULL,
     ra SERIAL UNIQUE NOT NULL,
     cpf VARCHAR(11) UNIQUE NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
-    updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE SCHEMA IF NOT EXISTS development;
@@ -18,8 +20,8 @@ create table development.students (
     email VARCHAR(40) NOT NULL,
     ra SERIAL UNIQUE NOT NULL,
     cpf VARCHAR(11) UNIQUE NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT current_timestamp,
-    updated_at TIMESTAMP NOT NULL DEFAULT current_timestamp
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 INSERT INTO development.students (name, email, cpf) VALUES ('joão', 'joao@mail.com', '12345678945'), ('maria', 'maria@mail.com', '56345678342')

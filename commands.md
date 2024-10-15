@@ -12,3 +12,5 @@ sudo service postgresql stop
 
 
 docker compose up --build
+
+docker compose logs postgres
