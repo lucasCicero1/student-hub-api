@@ -1,11 +1,11 @@
 {
-  "name": "api-without-orm",
+  "name": "api-clean-architecture",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "eslint": "eslint ./src/**/*.js",
-    "dev": "NODE_ENV=development nodemon --watch . -e js,twig,html,css src/server.js --exec 'npm run eslint && babel-node'",
+    "dev": "NODE_ENV=development nodemon --watch . -e js,twig,html,css src/main/server.js --exec 'npm run eslint && babel-node'",
     "test": "NODE_ENV=test jest",
     "test:verbose": "NODE_ENV=test jest --passWithNoTests --runInBand",
     "prepare": "husky",
