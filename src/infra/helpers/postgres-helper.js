@@ -19,7 +19,7 @@ class PostgresHelper {
   }
 
   async disconnect() {
-    await this.client.end();
+    if (this.client) await this.client.end();
     this.client = null;
   }
 }
