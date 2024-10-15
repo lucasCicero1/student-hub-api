@@ -15,7 +15,6 @@ describe("Create Student Repository", () => {
 
   beforeAll(async () => {
     client = await postgresHelper.connect();
-    await postgresHelper.connect();
     await client.query(
       "CREATE TEMPORARY TABLE fake_students (LIKE my_schema.students INCLUDING ALL)",
     );
@@ -25,10 +24,6 @@ describe("Create Student Repository", () => {
     await postgresHelper.disconnect();
   });
 
-  beforeEach(async () => {
-    await client.query("TRUNCATE TABLE fake_students CASCADE;");
-  });
-
   test("Should be able to create a student", async () => {
     const sut = makeSut();
     const sql =
@@ -36,5 +31,14 @@ describe("Create Student Repository", () => {
     jest.spyOn(sut, "sql", "get").mockReturnValue(sql);
     const response = await sut.create(fakeQuery());
     expect(response).toBeTruthy();
+  });
+
+  test("Should throw if PostgresHelper throws", async () => {
+    const sut = makeSut();
+    jest
+      .spyOn(postgresHelper, "connect")
+      .mockImplementationOnce(() => Promise.reject(new Error()));
+    const promise = sut.create(fakeQuery());
+    await expect(promise).rejects.toThrow();
   });
 });
