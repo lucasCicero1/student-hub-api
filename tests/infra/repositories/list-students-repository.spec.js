@@ -45,4 +45,11 @@ describe("List Students Repository", () => {
     expect(students.ra).toBeTruthy();
     expect(students.cpf).toBe("84567329460");
   });
+
+  test("Should return empty array if there is no data in the database", async () => {
+    const sut = makeSut();
+    jest.spyOn(sut, "sql", "get").mockReturnValue(sql);
+    const students = await sut.list();
+    expect(students).toHaveLength(0);
+  });
 });
