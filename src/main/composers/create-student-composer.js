@@ -5,7 +5,9 @@ import { CreateStudentController } from "../../presentation/controllers";
 import {
   RequiredFieldValidation,
   ValidationComposite,
+  EmailValidation,
 } from "../../validations";
+import { EmailValidatorAdapter } from "../../infra/validators";
 import { Envs } from "../config/envs";
 
 class CreateStudentComposer {
@@ -26,6 +28,7 @@ class CreateStudentComposer {
     const validations = [];
     for (const field of ["name", "email", "cpf"])
       validations.push(new RequiredFieldValidation(field));
+    validations.push(new EmailValidation("email", new EmailValidatorAdapter()));
     return new ValidationComposite(validations);
   }
 }
