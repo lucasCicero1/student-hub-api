@@ -1,4 +1,5 @@
 import { ListStudentsController } from "../../../src/presentation/controllers";
+import HttpResponse from "../../../src/presentation/helpers/http-response";
 
 const makeListUseCase = () => {
   class ListUseCaseStub {
@@ -32,5 +33,16 @@ describe("List Students Controller", () => {
     const listUseCaseSpy = jest.spyOn(listUseCaseStub, "list");
     await sut.handle({ body: fakeQuery() });
     expect(listUseCaseSpy).toHaveBeenCalledWith(fakeQuery());
+  });
+
+  test("Should return 200 on success", async () => {
+    const { sut, listUseCaseStub } = makeSut();
+    jest
+      .spyOn(listUseCaseStub, "list")
+      .mockReturnValueOnce([{ ...fakeQuery(), ra: "any_ra" }]);
+    const httpResponse = await sut.handle({});
+    expect(httpResponse).toEqual(
+      HttpResponse.ok([{ ...fakeQuery(), ra: "any_ra" }]),
+    );
   });
 });
