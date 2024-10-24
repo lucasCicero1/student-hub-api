@@ -19,8 +19,17 @@ export default class CreateStudentController {
         message: "Student was created successfully.",
       });
     } catch (error) {
-      console.log("error: ", error);
-      return HttpResponse.serverError(error);
+      console.log(error);
+      return this.#switchResponse(error);
+    }
+  }
+
+  #switchResponse(error) {
+    switch (error.statusCode) {
+      case 409:
+        return HttpResponse.conflict(error.message);
+      default:
+        return HttpResponse.serverError(error);
     }
   }
 }
