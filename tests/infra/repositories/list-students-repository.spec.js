@@ -38,7 +38,7 @@ describe("List Students Repository", () => {
     );
     const sut = makeSut();
     jest.spyOn(sut, "sql", "get").mockReturnValue(sql);
-    const [students] = await sut.list();
+    const [students] = await sut.listStudents();
     expect(students).toBeTruthy();
     expect(students.name).toBe("fake-name");
     expect(students.email).toBe("fake-email@mail.com");
@@ -49,7 +49,23 @@ describe("List Students Repository", () => {
   test("Should return empty array if there is no data in the database", async () => {
     const sut = makeSut();
     jest.spyOn(sut, "sql", "get").mockReturnValue(sql);
-    const students = await sut.list();
+    const students = await sut.listStudents();
     expect(students).toHaveLength(0);
+  });
+
+  test("Should be able to list a student by cpf", async () => {
+    await client.query(
+      "INSERT INTO fake_students (name, email, cpf) VALUES ('fake-name', 'fake-email@mail.com', '12345678945'), ('other-name', 'other-name@mail.com', '56345678342')",
+    );
+    const sqlByCpf =
+      "SELECT name, email, ra, cpf FROM fake_students WHERE cpf = $1";
+    const sut = makeSut();
+    jest.spyOn(sut, "sqlWithCpf", "get").mockReturnValue(sqlByCpf);
+    const [students] = await sut.listStudentByCpf({ cpf: "56345678342" });
+    expect(students).toBeTruthy();
+    expect(students.name).toBe("other-name");
+    expect(students.email).toBe("other-name@mail.com");
+    expect(students.ra).toBeTruthy();
+    expect(students.cpf).toBe("56345678342");
   });
 });
