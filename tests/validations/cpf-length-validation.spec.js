@@ -13,4 +13,10 @@ describe("Cpf Length Validation", () => {
       new InvalidParamError("CPF must have 11 characters."),
     );
   });
+
+  test("Should return nothing if validation pass", () => {
+    const sut = makeSut();
+    const validateResponse = sut.validate({ cpf: "11111111111" });
+    expect(validateResponse).toBeFalsy();
+  });
 });
