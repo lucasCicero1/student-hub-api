@@ -30,5 +30,6 @@ module.exports = {
     "no-console": "off",
     "no-plusplus": "off",
     "no-restricted-syntax": "off",
+    "max-classes-per-file": "off",
   },
 };
