@@ -16,7 +16,9 @@ export default class CreateStudentUseCase {
   }
 
   async #validate({ cpf }) {
-    const exists = await this.#listStudentsRepository.listStudentByCpf({ cpf });
-    if (exists) throw new UserExistsError(cpf);
+    const exists = await this.#listStudentsRepository.listStudentByCpf({
+      cpf,
+    });
+    if (exists?.length) throw new UserExistsError(cpf);
   }
 }
