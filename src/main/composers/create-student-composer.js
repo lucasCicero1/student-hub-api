@@ -9,6 +9,7 @@ import {
   RequiredFieldValidation,
   ValidationComposite,
   EmailValidation,
+  CpfLengthValidation,
 } from "../../validations";
 import { EmailValidatorAdapter } from "../../infra/validators";
 import { Envs } from "../config/envs";
@@ -34,6 +35,7 @@ class CreateStudentComposer {
     for (const field of ["name", "email", "cpf"])
       validations.push(new RequiredFieldValidation(field));
     validations.push(new EmailValidation("email", new EmailValidatorAdapter()));
+    validations.push(new CpfLengthValidation("cpf"));
     return new ValidationComposite(validations);
   }
 }
