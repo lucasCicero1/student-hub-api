@@ -2,9 +2,13 @@ import { CreateStudentUseCase } from "../../domain/usecases";
 import { PostgresHelper } from "../../infra/helpers/postgres-helper";
 import { CreateStudentRepository } from "../../infra/repositories";
 import { CreateStudentController } from "../../presentation/controllers";
+import {
+  RequiredFieldValidation,
+  ValidationComposite,
+} from "../../validations";
 import { Envs } from "../config/envs";
 
-class CreateProtocolsRouterComposer {
+class CreateStudentComposer {
   static compose() {
     const postgresHelper = new PostgresHelper(Envs.POSTGRES);
     const createStudentRepository = new CreateStudentRepository(postgresHelper);
@@ -13,8 +17,16 @@ class CreateProtocolsRouterComposer {
     });
     const createStudentController = new CreateStudentController({
       createStudentUseCase,
+      validation: CreateStudentComposer.makeValidations(),
     });
     return createStudentController;
   }
+
+  static makeValidations() {
+    const validations = [];
+    for (const field of ["name", "email", "cpf"])
+      validations.push(new RequiredFieldValidation(field));
+    return new ValidationComposite(validations);
+  }
 }
-export default CreateProtocolsRouterComposer;
+export default CreateStudentComposer;

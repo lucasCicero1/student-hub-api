@@ -3,13 +3,17 @@ import HttpResponse from "../helpers/http-response";
 export default class CreateStudentController {
   #createStudentUseCase;
 
-  constructor({ createStudentUseCase }) {
+  #validation;
+
+  constructor({ createStudentUseCase, validation }) {
     this.#createStudentUseCase = createStudentUseCase;
+    this.#validation = validation;
   }
 
   async handle(httpRequest) {
     try {
-      if (!httpRequest?.body) throw new Error("Invalid Request");
+      const error = this.#validation.validate(httpRequest.body);
+      if (error) return HttpResponse.badRequest(error.message);
       await this.#createStudentUseCase.create(httpRequest.body);
       return HttpResponse.created({
         message: "Student was created successfully.",
