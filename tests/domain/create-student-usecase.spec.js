@@ -1,4 +1,5 @@
 import { CreateStudentUseCase } from "../../src/domain/usecases";
+import { UserExistsError } from "../../src/domain/errors";
 
 const makeCreateStudentRepository = () => {
   class CreateStudentRepositoryStub {
@@ -47,5 +48,15 @@ describe("Create Student UseCase", () => {
     );
     await sut.create(fakeQuery());
     expect(listRepositorySpy).toHaveBeenCalledWith({ cpf: "84567329460" });
+  });
+
+  test("Should return UserExistsError if cpf already exists", async () => {
+    const { sut, listRepositoryStub } = makeSut();
+    jest
+      .spyOn(listRepositoryStub, "listStudentByCpf")
+      .mockReturnValueOnce([{ ...fakeQuery(), ra: "any_ra" }]);
+    const cpf = "84567329460";
+    const promise = sut.create(fakeQuery());
+    await expect(promise).rejects.toEqual(new UserExistsError(cpf));
   });
 });
