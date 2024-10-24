@@ -1,6 +1,9 @@
 import { CreateStudentUseCase } from "../../domain/usecases";
 import { PostgresHelper } from "../../infra/helpers/postgres-helper";
-import { CreateStudentRepository } from "../../infra/repositories";
+import {
+  CreateStudentRepository,
+  ListStudentsRepository,
+} from "../../infra/repositories";
 import { CreateStudentController } from "../../presentation/controllers";
 import {
   RequiredFieldValidation,
@@ -14,8 +17,10 @@ class CreateStudentComposer {
   static compose() {
     const postgresHelper = new PostgresHelper(Envs.POSTGRES);
     const createStudentRepository = new CreateStudentRepository(postgresHelper);
+    const listStudentsRepository = new ListStudentsRepository(postgresHelper);
     const createStudentUseCase = new CreateStudentUseCase({
       createStudentRepository,
+      listStudentsRepository,
     });
     const createStudentController = new CreateStudentController({
       createStudentUseCase,
