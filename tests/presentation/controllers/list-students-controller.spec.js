@@ -45,4 +45,11 @@ describe("List Students Controller", () => {
       HttpResponse.ok([{ ...fakeQuery(), ra: "any_ra" }]),
     );
   });
+
+  test("Should return 204 if there is no students to retrieve", async () => {
+    const { sut, listUseCaseStub } = makeSut();
+    jest.spyOn(listUseCaseStub, "list").mockReturnValueOnce([]);
+    const httpResponse = await sut.handle({});
+    expect(httpResponse).toEqual(HttpResponse.noContent());
+  });
 });
