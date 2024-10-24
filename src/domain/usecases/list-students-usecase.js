@@ -5,7 +5,7 @@ export default class ListStudentsUseCase {
     this.#listStudentsRepository = listStudentsRepository;
   }
 
-  async list(payload) {
-    return this.#listStudentsRepository.list(payload);
+  async list() {
+    return this.#listStudentsRepository.listStudents();
   }
 }
