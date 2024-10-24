@@ -10,7 +10,9 @@ export default class ListStudentsController {
   async handle(httpRequest) {
     try {
       const students = await this.#listStudentsUseCase.list(httpRequest.body);
-      return HttpResponse.ok(students);
+      return students?.length
+        ? HttpResponse.ok(students)
+        : HttpResponse.noContent();
     } catch (error) {
       console.log(error);
       return HttpResponse.serverError(error);
