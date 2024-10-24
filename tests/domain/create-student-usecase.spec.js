@@ -59,4 +59,12 @@ describe("Create Student UseCase", () => {
     const promise = sut.create(fakeQuery());
     await expect(promise).rejects.toEqual(new UserExistsError(cpf));
   });
+
+  test("Should call createStudentRepository with correct values", async () => {
+    const { sut, createRepositoryStub } = makeSut();
+    const createRepositorySpy = jest.spyOn(createRepositoryStub, "create");
+    const payload = fakeQuery();
+    await sut.create(payload);
+    expect(createRepositorySpy).toHaveBeenCalledWith(payload);
+  });
 });
