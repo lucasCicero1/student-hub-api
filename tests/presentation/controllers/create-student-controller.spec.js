@@ -83,4 +83,13 @@ describe("List Students Controller", () => {
       HttpResponse.conflict(`User with cpf: ${cpf} already exists!`),
     );
   });
+
+  test("Should return 500 if createStudentUseCase throws", async () => {
+    const { sut, createUseCaseStub } = makeSut();
+    jest
+      .spyOn(createUseCaseStub, "create")
+      .mockReturnValueOnce(Promise.reject(new Error()));
+    const httpResponse = await sut.handle({});
+    expect(httpResponse).toEqual(HttpResponse.serverError());
+  });
 });
