@@ -45,4 +45,11 @@ describe("List Students Controller", () => {
     await sut.handle({ body: fakeQuery() });
     expect(createUseCaseSpy).toHaveBeenCalledWith(fakeQuery());
   });
+
+  test("Should call validation with correct values", async () => {
+    const { sut, validationsStub } = makeSut();
+    const createUseCaseSpy = jest.spyOn(validationsStub, "validate");
+    await sut.handle({ body: fakeQuery() });
+    expect(createUseCaseSpy).toHaveBeenCalledWith(fakeQuery());
+  });
 });
