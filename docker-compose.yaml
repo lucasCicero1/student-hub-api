@@ -12,3 +12,31 @@ services:
       POSTGRES_DB: ${DB_NAME}
     ports:
       - 5432:5432
+    networks:
+      - backend
+  
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=postgres
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+      - DB_NAME=${DB_NAME}
+      - DB_PORT=5432
+    ports:
+      - 3000:3000
+    links:
+      - postgres
+    volumes:
+      - ./:/usr/src/app
+    command: npm run dev
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
