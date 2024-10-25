@@ -1,5 +1,6 @@
 import { CreateStudentController } from "../../../src/presentation/controllers";
 import HttpResponse from "../../../src/presentation/helpers/http-response";
+import { UserExistsError } from "../../../src/domain/errors";
 
 const makeCreateStudentUseCase = () => {
   class CreateStudentUseCaseStub {
@@ -68,6 +69,18 @@ describe("List Students Controller", () => {
     const httpResponse = await sut.handle({});
     expect(httpResponse).toEqual(
       HttpResponse.created({ message: "Student was created successfully." }),
+    );
+  });
+
+  test("Should return 409 if createStudentUseCase throws on its validation", async () => {
+    const { sut, createUseCaseStub } = makeSut();
+    const cpf = "96584762179";
+    jest
+      .spyOn(createUseCaseStub, "create")
+      .mockReturnValueOnce(Promise.reject(new UserExistsError(cpf)));
+    const httpResponse = await sut.handle({});
+    expect(httpResponse).toEqual(
+      HttpResponse.conflict(`User with cpf: ${cpf} already exists!`),
     );
   });
 });
