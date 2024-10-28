@@ -1,4 +1,5 @@
 import { UpdateStudentController } from "../../../src/presentation/controllers";
+import HttpResponse from "../../../src/presentation/helpers/http-response";
 
 const makeUpdateStudentUseCase = () => {
   class UpdateStudentUseCaseStub {
@@ -49,5 +50,14 @@ describe("Update Student Controller", () => {
     const updateUseCaseSpy = jest.spyOn(validationsStub, "validate");
     await sut.handle({ body: fakeQuery() });
     expect(updateUseCaseSpy).toHaveBeenCalledWith(fakeQuery());
+  });
+
+  test("Should return badRequest if validation returns an error", async () => {
+    const { sut, validationsStub } = makeSut();
+    jest
+      .spyOn(validationsStub, "validate")
+      .mockReturnValueOnce(new Error("any_message"));
+    const httpResponse = await sut.handle({ body: fakeQuery() });
+    expect(httpResponse).toEqual(HttpResponse.badRequest("any_message"));
   });
 });
