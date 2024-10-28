@@ -14,7 +14,6 @@ export default class ListStudentsController {
         ? HttpResponse.ok(students)
         : HttpResponse.noContent();
     } catch (error) {
-      console.log(error);
       return HttpResponse.serverError(error);
     }
   }

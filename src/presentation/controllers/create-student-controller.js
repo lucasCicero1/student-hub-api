@@ -19,7 +19,6 @@ export default class CreateStudentController {
         message: "Student was created successfully.",
       });
     } catch (error) {
-      console.log(error);
       return this.#switchResponse(error);
     }
   }
