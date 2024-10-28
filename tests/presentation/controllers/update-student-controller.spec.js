@@ -68,4 +68,13 @@ describe("Update Student Controller", () => {
       HttpResponse.updated({ message: "Student was updated successfully." }),
     );
   });
+
+  test("Should return 500 if updateStudentUseCase throws", async () => {
+    const { sut, updateUseCaseStub } = makeSut();
+    jest
+      .spyOn(updateUseCaseStub, "update")
+      .mockReturnValueOnce(Promise.reject(new Error()));
+    const httpResponse = await sut.handle({});
+    expect(httpResponse).toEqual(HttpResponse.serverError());
+  });
 });
