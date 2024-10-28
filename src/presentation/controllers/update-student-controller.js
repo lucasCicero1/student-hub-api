@@ -19,16 +19,7 @@ export default class UpdateStudentController {
         message: "Student was updated successfully.",
       });
     } catch (error) {
-      return this.#switchResponse(error);
-    }
-  }
-
-  #switchResponse(error) {
-    switch (error.statusCode) {
-      case 409:
-        return HttpResponse.conflict(error.message);
-      default:
-        return HttpResponse.serverError(error);
+      return HttpResponse.serverError(error);
     }
   }
 }
