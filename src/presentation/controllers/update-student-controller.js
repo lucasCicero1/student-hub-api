@@ -14,7 +14,10 @@ export default class UpdateStudentController {
     try {
       const error = this.#validation.validate(httpRequest.body);
       if (error) return HttpResponse.badRequest(error.message);
-      return await this.#updateStudentUseCase.update(httpRequest.body);
+      await this.#updateStudentUseCase.update(httpRequest.body);
+      return HttpResponse.updated({
+        message: "Student was updated successfully.",
+      });
     } catch (error) {
       return this.#switchResponse(error);
     }
