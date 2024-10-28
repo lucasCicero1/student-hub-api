@@ -12,7 +12,8 @@ export default class UpdateStudentController {
 
   async handle(httpRequest) {
     try {
-      this.#validation.validate(httpRequest.body);
+      const error = this.#validation.validate(httpRequest.body);
+      if (error) return HttpResponse.badRequest(error.message);
       return await this.#updateStudentUseCase.update(httpRequest.body);
     } catch (error) {
       return this.#switchResponse(error);
