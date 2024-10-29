@@ -15,10 +15,9 @@ class HttpResponse {
     };
   }
 
-  static updated(body) {
+  static updated() {
     return {
       statusCode: 204,
-      body,
     };
   }
 
