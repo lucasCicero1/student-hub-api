@@ -22,6 +22,8 @@ $$ language 'plpgsql';
 
 CREATE TRIGGER update_modified_time BEFORE UPDATE ON my_schema.students FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
 
+INSERT INTO my_schema.students (name, email, cpf) VALUES ('Henrique Santos', 'henrique.123@mail.com', '91381231412'), ('Joyce Oliveira', 'joyce.oliveira@yahoo.com.br', '85712945123'), ('Luana Silva', 'luana@hotmail.com', '85712311234')
+
 -- CREATE SCHEMA IF NOT EXISTS test;
 
 -- create table if not exists test.students (
