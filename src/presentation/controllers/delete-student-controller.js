@@ -1,3 +1,5 @@
+import HttpResponse from "../helpers/http-response";
+
 export default class DeleteStudentController {
   #deleteStudentUseCase;
 
@@ -9,7 +11,8 @@ export default class DeleteStudentController {
   }
 
   async handle(httpRequest) {
-    this.#validation.validate(httpRequest.body);
-    await this.#deleteStudentUseCase.delete(httpRequest.body);
+    const error = this.#validation.validate(httpRequest.body);
+    if (error) return HttpResponse.badRequest(error.message);
+    return this.#deleteStudentUseCase.delete(httpRequest.body);
   }
 }
