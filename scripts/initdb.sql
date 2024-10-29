@@ -12,6 +12,16 @@ create table if not exists my_schema.students (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+CREATE OR REPLACE FUNCTION update_modified_column()
+RETURNS TRIGGER AS $$
+BEGIN
+NEW.updated_at = now();
+RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_modified_time BEFORE UPDATE ON my_schema.students FOR EACH ROW EXECUTE PROCEDURE update_modified_column();
+
 -- CREATE SCHEMA IF NOT EXISTS test;
 
 -- create table if not exists test.students (
