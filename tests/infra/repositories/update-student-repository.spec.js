@@ -37,4 +37,13 @@ describe("Update Student Repository", () => {
     const response = await sut.update(fakeQuery());
     expect(response).toBeTruthy();
   });
+
+  test("Should throw if PostgresHelper throws", async () => {
+    const sut = makeSut();
+    jest
+      .spyOn(postgresHelper, "connect")
+      .mockImplementationOnce(() => Promise.reject(new Error()));
+    const promise = sut.update(fakeQuery());
+    await expect(promise).rejects.toThrow();
+  });
 });
