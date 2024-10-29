@@ -11,9 +11,13 @@ export default class DeleteStudentController {
   }
 
   async handle(httpRequest) {
-    const error = this.#validation.validate(httpRequest.body);
-    if (error) return HttpResponse.badRequest(error.message);
-    await this.#deleteStudentUseCase.delete(httpRequest.body);
-    return HttpResponse.noContent();
+    try {
+      const error = this.#validation.validate(httpRequest.body);
+      if (error) return HttpResponse.badRequest(error.message);
+      await this.#deleteStudentUseCase.delete(httpRequest.body);
+      return HttpResponse.noContent();
+    } catch (error) {
+      return HttpResponse.serverError(error);
+    }
   }
 }
