@@ -9,6 +9,8 @@ This is a REST API built to manipulate students from an educational institution,
 ### Requirements:
 >node: 20.x.x
 
+`cp .env.example .env` - Copy ".env.example" to ".env"
+
 ### Run the app with Docker
 
 - git clone https://github.com/lucasCicero1/student-hub-api.git
