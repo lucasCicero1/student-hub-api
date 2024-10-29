@@ -9,14 +9,26 @@ const makeDeleteStudentUseCase = () => {
   return new DeleteStudentUseCaseStub();
 };
 
+const makeValidations = () => {
+  class ValidationStub {
+    validate() {
+      return null;
+    }
+  }
+  return new ValidationStub();
+};
+
 const makeSut = () => {
   const deleteUseCaseStub = makeDeleteStudentUseCase();
+  const validationsStub = makeValidations();
   const sut = new DeleteStudentController({
     deleteStudentUseCase: deleteUseCaseStub,
+    validation: validationsStub,
   });
   return {
     sut,
     deleteUseCaseStub,
+    validationsStub,
   };
 };
 
@@ -30,5 +42,12 @@ describe("Delete Student Controller", () => {
     const deleteUseCaseSpy = jest.spyOn(deleteUseCaseStub, "delete");
     await sut.handle({ body: fakeQuery() });
     expect(deleteUseCaseSpy).toHaveBeenCalledWith(fakeQuery());
+  });
+
+  test("Should call validation with correct values", async () => {
+    const { sut, validationsStub } = makeSut();
+    const updateUseCaseSpy = jest.spyOn(validationsStub, "validate");
+    await sut.handle({ body: fakeQuery() });
+    expect(updateUseCaseSpy).toHaveBeenCalledWith(fakeQuery());
   });
 });
