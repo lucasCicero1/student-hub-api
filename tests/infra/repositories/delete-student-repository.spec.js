@@ -34,4 +34,13 @@ describe("Delete Student Repository", () => {
     const response = await sut.delete(fakeQuery());
     expect(response).toBeTruthy();
   });
+
+  test("Should throw if PostgresHelper throws", async () => {
+    const sut = makeSut();
+    jest
+      .spyOn(postgresHelper, "connect")
+      .mockImplementationOnce(() => Promise.reject(new Error()));
+    const promise = sut.delete(fakeQuery());
+    await expect(promise).rejects.toThrow();
+  });
 });
