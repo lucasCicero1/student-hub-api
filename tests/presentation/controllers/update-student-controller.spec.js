@@ -64,7 +64,7 @@ describe("Update Student Controller", () => {
   test("Should return 204 on success", async () => {
     const { sut } = makeSut();
     const httpResponse = await sut.handle({});
-    expect(httpResponse).toEqual(HttpResponse.updated());
+    expect(httpResponse).toEqual(HttpResponse.noContent());
   });
 
   test("Should return 500 if updateStudentUseCase throws", async () => {

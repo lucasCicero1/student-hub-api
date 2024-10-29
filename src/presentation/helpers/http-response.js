@@ -15,12 +15,6 @@ class HttpResponse {
     };
   }
 
-  static updated() {
-    return {
-      statusCode: 204,
-    };
-  }
-
   static conflict(error) {
     return {
       statusCode: 409,
