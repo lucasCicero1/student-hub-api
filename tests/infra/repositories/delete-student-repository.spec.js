@@ -51,4 +51,12 @@ describe("Delete Student Repository", () => {
     await sut.delete(fakeQuery());
     expect(postgresHelperSpy).toHaveBeenCalled();
   });
+
+  test("Should call postgresHelper disconnect", async () => {
+    const sut = makeSut();
+    jest.spyOn(sut, "sql", "get").mockReturnValue(sql);
+    const postgresHelperSpy = jest.spyOn(postgresHelper, "disconnect");
+    await sut.delete(fakeQuery());
+    expect(postgresHelperSpy).toHaveBeenCalled();
+  });
 });
