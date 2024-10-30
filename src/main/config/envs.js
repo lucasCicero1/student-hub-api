@@ -26,7 +26,12 @@ export class Envs {
         idleTimeoutMillis: 0,
       },
       production: {
-        DATABASE_URL: process.env.DATABASE_URL,
+        host: "dpg-csgne408fa8c7390k0jg-a",
+        user: "nodedeploy_pg_j0z9_user",
+        password: "2Xa8CjimEI15JYqJ5HE9tzdphTxFxgvV",
+        database: "nodedeploy_pg_j0z9",
+        max: 10,
+        idleTimeoutMillis: 1000,
       },
     }[Envs.NODE_ENV];
   }
