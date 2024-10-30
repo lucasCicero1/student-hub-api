@@ -9,7 +9,9 @@
     "test": "NODE_ENV=test jest",
     "test:verbose": "NODE_ENV=test jest --passWithNoTests --runInBand",
     "prepare": "husky",
-    "test:staged": "npm test -- --findRelatedTests --passWithNoTests"
+    "test:staged": "npm test -- --findRelatedTests --passWithNoTests",
+    "build": "babel -d ./build ./src",
+    "start": "node ./build/main/server.js"
   },
   "keywords": [],
   "author": "",
