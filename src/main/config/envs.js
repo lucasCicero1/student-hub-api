@@ -25,7 +25,9 @@ export class Envs {
         max: 1,
         idleTimeoutMillis: 0,
       },
-      production: {},
+      production: {
+        DATABASE_URL: process.env.DATABASE_URL,
+      },
     }[Envs.NODE_ENV];
   }
 }
