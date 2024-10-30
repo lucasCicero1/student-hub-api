@@ -11,7 +11,7 @@
     "prepare": "husky",
     "test:staged": "npm test -- --findRelatedTests --passWithNoTests",
     "build": "babel -d ./build ./src",
-    "start": "node ./build/main/server.js"
+    "start": "NODE_ENV=production node ./build/main/server.js"
   },
   "keywords": [],
   "author": "",
