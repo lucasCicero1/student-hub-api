@@ -19,14 +19,6 @@ This is a REST API built to manipulate students from an educational institution,
 
 - `docker compose down` - This will stop the application and database.
 
-### Run the app locally
-
-- git clone https://github.com/lucasCicero1/student-hub-api.git
-
-- `npm install`
-
-- `npm run dev` - This will start the application and run on port 3000
-
 ## Features
 
 - \[x] Register Student
