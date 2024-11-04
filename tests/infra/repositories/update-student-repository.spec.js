@@ -52,6 +52,12 @@ describe("Update Student Repository", () => {
     expect(postgresHelperSpy).toHaveBeenCalled();
   });
 
+  test("Should be able to call PostgresHelper query begin before update", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    await sut.update(fakeQuery());
+    expect(mockPostgresHelper.client.query).toHaveBeenCalledWith("BEGIN;");
+  });
+
   test("Should call postgresHelper disconnect", async () => {
     const { sut, mockPostgresHelper } = makeSut();
     const postgresHelperSpy = jest.spyOn(mockPostgresHelper, "disconnect");
