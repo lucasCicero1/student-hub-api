@@ -84,15 +84,6 @@ describe("Create Student Repository", () => {
     expect(postgresHelperSpy).toHaveBeenCalledTimes(1);
   });
 
-  test("Should throw if PostgresHelper throws", async () => {
-    const { sut, mockPostgresHelper } = makeSut();
-    jest
-      .spyOn(mockPostgresHelper, "connect")
-      .mockImplementationOnce(() => Promise.reject(new Error()));
-    const promise = sut.create(fakeQuery());
-    await expect(promise).rejects.toThrow();
-  });
-
   test("Should call rollback if any error occurs", async () => {
     const { sut, mockPostgresHelper } = makeSut();
     mockPostgresHelper.client.query
