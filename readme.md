@@ -19,6 +19,10 @@ This is a REST API built to manipulate students from an educational institution,
 
 - `docker compose down` - This will stop the application and database.
 
+### Run the Tests
+
+- `npm test` - This will run the application unit tests.
+
 ## Features
 
 - \[x] Register Student
