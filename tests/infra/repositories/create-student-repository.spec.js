@@ -56,6 +56,12 @@ describe("Create Student Repository", () => {
     expect(postgresHelperSpy).toHaveBeenCalledTimes(1);
   });
 
+  test("Should be able to call PostgresHelper query begin before insert", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    await sut.create(fakeQuery());
+    expect(mockPostgresHelper.client.query).toHaveBeenCalledWith("BEGIN;");
+  });
+
   test("Should be able to call PostgresHelper query method with correct sql and params", async () => {
     const { sut, mockPostgresHelper } = makeSut();
     await sut.create(fakeQuery());
