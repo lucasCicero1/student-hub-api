@@ -77,6 +77,15 @@ describe("Update Student Repository", () => {
     expect(mockPostgresHelper.client.query).toHaveBeenCalledWith("COMMIT;");
   });
 
+  test("Should call rollback if any error occurs", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    mockPostgresHelper.client.query
+      .mockImplementationOnce()
+      .mockImplementationOnce(() => Promise.reject(new Error()));
+    await expect(sut.update(fakeQuery())).rejects.toThrow();
+    expect(mockPostgresHelper.client.query).toHaveBeenCalledWith("ROLLBACK;");
+  });
+
   test("Should call postgresHelper disconnect", async () => {
     const { sut, mockPostgresHelper } = makeSut();
     const postgresHelperSpy = jest.spyOn(mockPostgresHelper, "disconnect");
