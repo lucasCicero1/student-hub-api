@@ -26,11 +26,6 @@ export default class DeleteStudentRepository {
   }
 
   get sql() {
-    return `
-      DELETE FROM
-        my_schema.students
-      WHERE
-        cpf = $1
-    `;
+    return "DELETE FROM my_schema.students WHERE cpf = $1";
   }
 }
