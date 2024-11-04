@@ -43,4 +43,11 @@ describe("List Students Repository", () => {
     const students = await sut.listStudents();
     expect(students).toEqual(mockData);
   });
+
+  test("Should be able to call PostgresHelper connect method", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    mockPostgresHelper.client.query.mockResolvedValue({ rows: mockData });
+    await sut.listStudents();
+    expect(mockPostgresHelper.connect).toHaveBeenCalledTimes(1);
+  });
 });
