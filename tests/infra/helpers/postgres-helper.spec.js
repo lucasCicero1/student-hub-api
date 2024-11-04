@@ -1,7 +1,13 @@
 import { PostgresHelper } from "../../../src/infra/helpers/postgres-helper";
-import { Envs } from "../../../src/main/config/envs";
 
-const sut = new PostgresHelper(Envs.POSTGRES);
+jest.mock("pg", () => ({
+  Client: jest.fn().mockImplementation(() => ({
+    connect: jest.fn(),
+    end: jest.fn(),
+  })),
+}));
+
+const sut = new PostgresHelper({ host: "localhost", port: 5432 });
 
 describe("Postgres Helper", () => {
   test("Should connect on postgres database and return a client", async () => {
