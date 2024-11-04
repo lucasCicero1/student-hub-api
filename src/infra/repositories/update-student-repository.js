@@ -26,13 +26,6 @@ export default class UpdateStudentRepository {
   }
 
   get sql() {
-    return `
-      UPDATE
-        my_schema.students
-      SET
-        (name, email) = ($1, $2)
-      WHERE
-        cpf = $3
-    `;
+    return "UPDATE my_schema.students SET (name, email) = ($1, $2) WHERE cpf = $3";
   }
 }
