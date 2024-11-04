@@ -1,5 +1,3 @@
-import { PostgresHelper } from "../../../src/infra/helpers/postgres-helper";
-import { Envs } from "../../../src/main/config/envs";
 import { UpdateStudentRepository } from "../../../src/infra/repositories";
 
 const fakeQuery = () => ({
@@ -8,57 +6,55 @@ const fakeQuery = () => ({
   cpf: "84567329460",
 });
 
+const makePostgresHelperMock = () => {
+  class PostgresHelperMock {
+    connect = jest.fn();
+
+    disconnect = jest.fn();
+
+    client = {
+      query: jest.fn(),
+    };
+  }
+  return new PostgresHelperMock();
+};
+
+const makeSut = () => {
+  const mockPostgresHelper = makePostgresHelperMock();
+  const sut = new UpdateStudentRepository(mockPostgresHelper);
+  mockPostgresHelper.connect.mockResolvedValue(mockPostgresHelper.client);
+  return {
+    sut,
+    mockPostgresHelper,
+  };
+};
+
 describe("Update Student Repository", () => {
-  const postgresHelper = new PostgresHelper(Envs.POSTGRES);
-  const makeSut = () => new UpdateStudentRepository(postgresHelper);
-  let client;
-  const sql =
-    "UPDATE fake_students SET (name, email) = ($1, $2) WHERE cpf = $3;";
-
-  afterAll(async () => {
-    await postgresHelper.disconnect();
-  });
-
-  beforeEach(async () => {
-    client = await postgresHelper.connect();
-    await client.query(
-      "CREATE TEMPORARY TABLE fake_students (LIKE my_schema.students INCLUDING ALL)",
-    );
-  });
-
-  afterEach(async () => {
-    client = await postgresHelper.connect();
-    await client.query("DROP TABLE IF EXISTS pg_temp.fake_students");
-  });
-
   test("Should be able to update a student", async () => {
-    const sut = makeSut();
-    jest.spyOn(sut, "sql", "get").mockReturnValue(sql);
+    const { sut } = makeSut();
     const response = await sut.update(fakeQuery());
     expect(response).toBeTruthy();
   });
 
   test("Should throw if PostgresHelper throws", async () => {
-    const sut = makeSut();
+    const { sut, mockPostgresHelper } = makeSut();
     jest
-      .spyOn(postgresHelper, "connect")
+      .spyOn(mockPostgresHelper, "connect")
       .mockImplementationOnce(() => Promise.reject(new Error()));
     const promise = sut.update(fakeQuery());
     await expect(promise).rejects.toThrow();
   });
 
   test("Should call postgresHelper connect", async () => {
-    const sut = makeSut();
-    jest.spyOn(sut, "sql", "get").mockReturnValue(sql);
-    const postgresHelperSpy = jest.spyOn(postgresHelper, "connect");
+    const { sut, mockPostgresHelper } = makeSut();
+    const postgresHelperSpy = jest.spyOn(mockPostgresHelper, "connect");
     await sut.update(fakeQuery());
     expect(postgresHelperSpy).toHaveBeenCalled();
   });
 
   test("Should call postgresHelper disconnect", async () => {
-    const sut = makeSut();
-    jest.spyOn(sut, "sql", "get").mockReturnValue(sql);
-    const postgresHelperSpy = jest.spyOn(postgresHelper, "disconnect");
+    const { sut, mockPostgresHelper } = makeSut();
+    const postgresHelperSpy = jest.spyOn(mockPostgresHelper, "disconnect");
     await sut.update(fakeQuery());
     expect(postgresHelperSpy).toHaveBeenCalled();
   });
