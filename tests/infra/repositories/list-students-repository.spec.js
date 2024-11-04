@@ -33,10 +33,6 @@ describe("List Students Repository", () => {
     },
   ];
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   test("Should be able to list students", async () => {
     const { sut, mockPostgresHelper } = makeSut();
     mockPostgresHelper.client.query.mockResolvedValue({ rows: mockData });

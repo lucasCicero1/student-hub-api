@@ -30,10 +30,6 @@ const makeSut = () => {
 };
 
 describe("Create Student Repository", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   test("Should be able to create a student", async () => {
     const { sut } = makeSut();
     const response = await sut.create(fakeQuery());

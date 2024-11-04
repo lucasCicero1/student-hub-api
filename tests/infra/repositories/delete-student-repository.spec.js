@@ -28,10 +28,6 @@ const makeSut = () => {
 };
 
 describe("Delete Student Repository", () => {
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
   test("Should be able to delete a student", async () => {
     const { sut } = makeSut();
     const response = await sut.delete(fakeQuery());
