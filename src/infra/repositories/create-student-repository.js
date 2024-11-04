@@ -26,11 +26,6 @@ export default class CreateStudentRepository {
   }
 
   get sql() {
-    return `
-      INSERT INTO
-        my_schema.students (name, email, cpf)
-      VALUES
-        ($1, $2, $3);
-    `;
+    return "INSERT INTO my_schema.students (name, email, cpf) VALUES ($1, $2, $3);";
   }
 }
