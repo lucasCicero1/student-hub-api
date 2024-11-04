@@ -30,6 +30,10 @@ const makeSut = () => {
 };
 
 describe("Update Student Repository", () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   test("Should be able to update a student", async () => {
     const { sut } = makeSut();
     const response = await sut.update(fakeQuery());
@@ -56,6 +60,15 @@ describe("Update Student Repository", () => {
     const { sut, mockPostgresHelper } = makeSut();
     await sut.update(fakeQuery());
     expect(mockPostgresHelper.client.query).toHaveBeenCalledWith("BEGIN;");
+  });
+
+  test("Should be able to call PostgresHelper with correct sql and params", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    await sut.update(fakeQuery());
+    expect(mockPostgresHelper.client.query).toHaveBeenCalledWith(
+      "UPDATE my_schema.students SET (name, email) = ($1, $2) WHERE cpf = $3",
+      ["fake-name", "fake-email@mail.com", "84567329460"],
+    );
   });
 
   test("Should call postgresHelper disconnect", async () => {
