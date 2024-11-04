@@ -69,6 +69,12 @@ describe("Delete Student Repository", () => {
     );
   });
 
+  test("Should be able to call PostgresHelper query commit on success", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    await sut.delete(fakeQuery());
+    expect(mockPostgresHelper.client.query).toHaveBeenCalledWith("COMMIT;");
+  });
+
   test("Should call postgresHelper disconnect", async () => {
     const { sut, mockPostgresHelper } = makeSut();
     const postgresHelperSpy = jest.spyOn(mockPostgresHelper, "disconnect");
