@@ -67,4 +67,13 @@ describe("List Students Repository", () => {
     await sut.listStudents();
     expect(mockPostgresHelper.disconnect).toHaveBeenCalledTimes(1);
   });
+
+  test("Should throw if PostgresHelper throws", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    jest
+      .spyOn(mockPostgresHelper, "connect")
+      .mockImplementationOnce(() => Promise.reject(new Error()));
+    const promise = sut.listStudents();
+    await expect(promise).rejects.toThrow();
+  });
 });
