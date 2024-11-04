@@ -92,4 +92,13 @@ describe("Create Student Repository", () => {
     const promise = sut.create(fakeQuery());
     await expect(promise).rejects.toThrow();
   });
+
+  test("Should call rollback if any error occurs", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    mockPostgresHelper.client.query
+      .mockImplementationOnce()
+      .mockImplementationOnce(() => Promise.reject(new Error()));
+    await expect(sut.create(fakeQuery())).rejects.toThrow();
+    expect(mockPostgresHelper.client.query).toHaveBeenCalledWith("ROLLBACK;");
+  });
 });
