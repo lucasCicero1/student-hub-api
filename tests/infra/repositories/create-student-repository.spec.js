@@ -83,4 +83,13 @@ describe("Create Student Repository", () => {
     await sut.create(fakeQuery());
     expect(postgresHelperSpy).toHaveBeenCalledTimes(1);
   });
+
+  test("Should throw if PostgresHelper throws", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    jest
+      .spyOn(mockPostgresHelper, "connect")
+      .mockImplementationOnce(() => Promise.reject(new Error()));
+    const promise = sut.create(fakeQuery());
+    await expect(promise).rejects.toThrow();
+  });
 });
