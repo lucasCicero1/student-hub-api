@@ -50,4 +50,14 @@ describe("List Students Repository", () => {
     await sut.listStudents();
     expect(mockPostgresHelper.connect).toHaveBeenCalledTimes(1);
   });
+
+  test("Should be able to call PostgresHelper query method with correct values", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    mockPostgresHelper.client.query.mockResolvedValue({ rows: mockData });
+    await sut.listStudents();
+    expect(mockPostgresHelper.client.query).toHaveBeenCalledWith(
+      "SELECT name, email, ra, cpf FROM my_schema.students",
+      null,
+    );
+  });
 });
