@@ -83,4 +83,11 @@ describe("List Students Repository", () => {
     const students = await sut.listStudents();
     expect(students).toHaveLength(0);
   });
+
+  test("Should be able to list a student by cpf", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    mockPostgresHelper.client.query.mockResolvedValue({ rows: mockData });
+    const students = await sut.listStudentByCpf({ cpf: "some-cpf" });
+    expect(students).toEqual(mockData);
+  });
 });
