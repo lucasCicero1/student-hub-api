@@ -56,6 +56,15 @@ describe("Create Student Repository", () => {
     expect(postgresHelperSpy).toHaveBeenCalledTimes(1);
   });
 
+  test("Should be able to call PostgresHelper query method with correct sql and params", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    await sut.create(fakeQuery());
+    expect(mockPostgresHelper.client.query).toHaveBeenCalledWith(
+      "INSERT INTO my_schema.students (name, email, cpf) VALUES ($1, $2, $3);",
+      ["fake-name", "fake-email@mail.com", "84567329460"],
+    );
+  });
+
   test("Should call postgresHelper disconnect", async () => {
     const { sut, mockPostgresHelper } = makeSut();
     const postgresHelperSpy = jest.spyOn(mockPostgresHelper, "disconnect");
