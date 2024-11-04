@@ -90,4 +90,14 @@ describe("List Students Repository", () => {
     const students = await sut.listStudentByCpf({ cpf: "some-cpf" });
     expect(students).toEqual(mockData);
   });
+
+  test("Should be able to call PostgresHelper query method with correct sql and cpf param", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    mockPostgresHelper.client.query.mockResolvedValue({ rows: mockData });
+    await sut.listStudentByCpf({ cpf: "some-cpf" });
+    expect(mockPostgresHelper.client.query).toHaveBeenCalledWith(
+      "SELECT name, email, ra, cpf FROM my_schema.students WHERE cpf = $1",
+      ["some-cpf"],
+    );
+  });
 });
