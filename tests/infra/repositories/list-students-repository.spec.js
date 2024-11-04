@@ -76,4 +76,11 @@ describe("List Students Repository", () => {
     const promise = sut.listStudents();
     await expect(promise).rejects.toThrow();
   });
+
+  test("Should return empty array if there is no data in the database", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    mockPostgresHelper.client.query.mockResolvedValue({ rows: [] });
+    const students = await sut.listStudents();
+    expect(students).toHaveLength(0);
+  });
 });
