@@ -60,4 +60,11 @@ describe("List Students Repository", () => {
       null,
     );
   });
+
+  test("Should be able to call PostgresHelper disconnect method", async () => {
+    const { sut, mockPostgresHelper } = makeSut();
+    mockPostgresHelper.client.query.mockResolvedValue({ rows: mockData });
+    await sut.listStudents();
+    expect(mockPostgresHelper.disconnect).toHaveBeenCalledTimes(1);
+  });
 });
