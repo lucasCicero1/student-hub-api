@@ -29,7 +29,9 @@ This is a REST API built to manipulate students from an educational institution,
 - \[x] Search Students
 - \[x] Update Student
 - \[x] Delete Student
+- \[x] Graceful shutdown
 - \[x] Unit Tests
+- \[ ] Load Testing
 - \[ ] Integration Tests
 - \[ ] Security - Authorization Middleware
 
