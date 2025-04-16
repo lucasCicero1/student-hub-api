@@ -38,6 +38,8 @@ const fakeQuery = () => ({
   name: "fake-name",
   email: "fake-email@mail.com",
   cpf: "84567329460",
+  status: "active",
+  avatar: "https://teste",
 });
 
 describe("List Students Controller", () => {
@@ -50,9 +52,9 @@ describe("List Students Controller", () => {
 
   test("Should call validation with correct values", async () => {
     const { sut, validationsStub } = makeSut();
-    const createUseCaseSpy = jest.spyOn(validationsStub, "validate");
+    const validationStubSpy = jest.spyOn(validationsStub, "validate");
     await sut.handle({ body: fakeQuery() });
-    expect(createUseCaseSpy).toHaveBeenCalledWith(fakeQuery());
+    expect(validationStubSpy).toHaveBeenCalledWith(fakeQuery());
   });
 
   test("Should return badRequest if validation returns an error", async () => {

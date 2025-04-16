@@ -4,6 +4,8 @@ const fakeQuery = () => ({
   name: "fake-name",
   email: "fake-email@mail.com",
   cpf: "84567329460",
+  status: "active",
+  avatar: "https://teste",
 });
 
 const makePostgresHelperMock = () => {
@@ -62,8 +64,14 @@ describe("Create Student Repository", () => {
     const { sut, mockPostgresHelper } = makeSut();
     await sut.create(fakeQuery());
     expect(mockPostgresHelper.client.query).toHaveBeenCalledWith(
-      "INSERT INTO my_schema.students (name, email, cpf) VALUES ($1, $2, $3);",
-      ["fake-name", "fake-email@mail.com", "84567329460"],
+      "INSERT INTO my_schema.students (name, email, cpf, status, avatar) VALUES ($1, $2, $3, $4, $5);",
+      [
+        "fake-name",
+        "fake-email@mail.com",
+        "84567329460",
+        "active",
+        "https://teste",
+      ],
     );
   });
 
