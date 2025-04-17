@@ -5,7 +5,7 @@ export default class CreateStudentRepository {
     this.#postgresHelper = postgresHelper;
   }
 
-  async create({ name, email, cpf, status, avatar }) {
+  async create({ name, email, cpf, status = "active", avatar = "" }) {
     let client;
     try {
       client = await this.#postgresHelper.connect();
