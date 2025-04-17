@@ -5,12 +5,12 @@ export default class CreateStudentRepository {
     this.#postgresHelper = postgresHelper;
   }
 
-  async create({ name, email, cpf }) {
+  async create({ name, email, cpf, status = "active", avatar = "" }) {
     let client;
     try {
       client = await this.#postgresHelper.connect();
       await client.query("BEGIN;");
-      await client.query(this.sql, [name, email, cpf]);
+      await client.query(this.sql, [name, email, cpf, status, avatar]);
       await client.query("COMMIT;");
       return true;
     } catch (error) {
@@ -26,6 +26,6 @@ export default class CreateStudentRepository {
   }
 
   get sql() {
-    return "INSERT INTO my_schema.students (name, email, cpf) VALUES ($1, $2, $3);";
+    return "INSERT INTO my_schema.students (name, email, cpf, status, avatar) VALUES ($1, $2, $3, $4, $5);";
   }
 }

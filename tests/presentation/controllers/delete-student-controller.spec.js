@@ -41,14 +41,14 @@ describe("Delete Student Controller", () => {
   test("Should call deleteStudentUseCase with correct values", async () => {
     const { sut, deleteUseCaseStub } = makeSut();
     const deleteUseCaseSpy = jest.spyOn(deleteUseCaseStub, "delete");
-    await sut.handle({ body: fakeQuery() });
+    await sut.handle({ query: fakeQuery() });
     expect(deleteUseCaseSpy).toHaveBeenCalledWith(fakeQuery());
   });
 
   test("Should call validation with correct values", async () => {
     const { sut, validationsStub } = makeSut();
     const validationSpy = jest.spyOn(validationsStub, "validate");
-    await sut.handle({ body: fakeQuery() });
+    await sut.handle({ query: fakeQuery() });
     expect(validationSpy).toHaveBeenCalledWith(fakeQuery());
   });
 
@@ -57,7 +57,7 @@ describe("Delete Student Controller", () => {
     jest
       .spyOn(validationsStub, "validate")
       .mockReturnValueOnce(new Error("any_message"));
-    const httpResponse = await sut.handle({ body: fakeQuery() });
+    const httpResponse = await sut.handle({ query: fakeQuery() });
     expect(httpResponse).toEqual(HttpResponse.badRequest("any_message"));
   });
 

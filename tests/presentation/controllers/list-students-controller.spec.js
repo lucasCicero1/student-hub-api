@@ -25,6 +25,8 @@ const fakeQuery = () => ({
   name: "fake-name",
   email: "fake-email@mail.com",
   cpf: "84567329460",
+  status: "active",
+  avatar: "https://teste",
 });
 
 describe("List Students Controller", () => {

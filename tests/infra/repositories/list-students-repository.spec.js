@@ -30,6 +30,8 @@ describe("List Students Repository", () => {
       email: "test@mail.com",
       ra: "12345",
       cpf: "11122233344",
+      status: "active",
+      avatar: "https://teste",
     },
   ];
 
@@ -52,7 +54,7 @@ describe("List Students Repository", () => {
     mockPostgresHelper.client.query.mockResolvedValue({ rows: mockData });
     await sut.listStudents();
     expect(mockPostgresHelper.client.query).toHaveBeenCalledWith(
-      "SELECT name, email, ra, cpf FROM my_schema.students",
+      "SELECT id, name, email, ra, cpf, status, avatar FROM my_schema.students",
       null,
     );
   });
@@ -92,7 +94,7 @@ describe("List Students Repository", () => {
     mockPostgresHelper.client.query.mockResolvedValue({ rows: mockData });
     await sut.listStudentByCpf({ cpf: "some-cpf" });
     expect(mockPostgresHelper.client.query).toHaveBeenCalledWith(
-      "SELECT name, email, ra, cpf FROM my_schema.students WHERE cpf = $1",
+      "SELECT id, name, email, ra, cpf, status, avatar FROM my_schema.students WHERE cpf = $1",
       ["some-cpf"],
     );
   });
