@@ -11,10 +11,13 @@ export default class ListStudentsRepository {
       client = await this.#postgresHelper.connect();
       const { rows } = await client.query(sql, params);
       return rows.map((item) => ({
+        id: item.id,
         name: item.name,
         email: item.email,
         ra: item.ra,
         cpf: item.cpf,
+        status: item.status,
+        avatar: item.avatar,
       }));
     } finally {
       if (client) {
@@ -32,10 +35,10 @@ export default class ListStudentsRepository {
   }
 
   get sql() {
-    return "SELECT name, email, ra, cpf FROM my_schema.students";
+    return "SELECT id, name, email, ra, cpf, status, avatar FROM my_schema.students";
   }
 
   get sqlWithCpf() {
-    return "SELECT name, email, ra, cpf FROM my_schema.students WHERE cpf = $1";
+    return "SELECT id, name, email, ra, cpf, status, avatar FROM my_schema.students WHERE cpf = $1";
   }
 }
