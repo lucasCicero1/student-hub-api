@@ -5,12 +5,12 @@ export default class UpdateStudentRepository {
     this.#postgresHelper = postgresHelper;
   }
 
-  async update({ name, email, cpf }) {
+  async update({ name, email, cpf, status = "active", avatar = "" }) {
     let client;
     try {
       client = await this.#postgresHelper.connect();
       await client.query("BEGIN;");
-      await client.query(this.sql, [name, email, cpf]);
+      await client.query(this.sql, [name, email, cpf, status, avatar]);
       await client.query("COMMIT;");
       return true;
     } catch (error) {
@@ -26,6 +26,6 @@ export default class UpdateStudentRepository {
   }
 
   get sql() {
-    return "UPDATE my_schema.students SET (name, email) = ($1, $2) WHERE cpf = $3";
+    return "UPDATE my_schema.students SET (name, email, status, avatar) = ($1, $2, $4, $5) WHERE cpf = $3";
   }
 }
